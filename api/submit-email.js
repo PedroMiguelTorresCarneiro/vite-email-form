@@ -6,13 +6,14 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // Vercel: leitura manual do body
     const buffers = [];
     for await (const chunk of req) {
       buffers.push(chunk);
     }
-    const body = JSON.parse(Buffer.concat(buffers).toString());
 
-    const { email } = body;
+    const rawBody = Buffer.concat(buffers).toString();
+    const { email } = JSON.parse(rawBody);
 
     if (!email) {
       return res.status(400).json({ message: 'Email é obrigatório.' });
@@ -39,7 +40,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({ message: 'Email adicionado com sucesso!' });
   } catch (error) {
-    console.error('Erro na API:', error);
+    console.error('Erro na função submit-email:', error);
     return res.status(500).json({ message: 'Erro interno no servidor.' });
   }
 };
