@@ -44,3 +44,4 @@ module.exports = async (req, res) => {
     return res.status(500).json({ message: 'Erro interno no servidor.' });
   }
 };
+// trigger deploy
